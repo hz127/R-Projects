@@ -75,19 +75,19 @@ lastprice <- as.numeric(PFE$PFE.Close["2014-12-31"])
 fore.price <- Reduce(function(x,y) {x*exp(y)}, fore.mean, init=lastprice, accumulate=T) 
 
 #95% Upper and Lower bond for closing price
-lower=fore.price[c(1+1:l)]*exp(fore$lower[,2])
-upper=fore.price[c(1+1:l)]*exp(fore$upper[,2])
+lower <- fore.price[c(1+1:l)]*exp(fore$lower[,2])
+upper <- fore.price[c(1+1:l)]*exp(fore$upper[,2])
 
 ##Plot the forecasting closing price and the real value
 plot(date,PFE$PFE.Close[date],type="b",ylab="Closing price",ylim=c(30,33.5),main="Forecats of the Closing Price by lag of 10")
-period=index(ret_p["2014-12-31::"][1+0:l]) #the forecast period
+period <- index(ret_p["2014-12-31::"][1+0:l]) #the forecast period
 lines(period,fore.price,type="b",col="red")
 lines(period[1+1:l],upper,col="blue")
 lines(period[1+1:l],lower,col="blue")
 legend("topleft", c("Forecasting price","Closing price","95% CI"), col=c("red","black","blue"), text.col=c("red","black","blue"),lty=c(4,4,1),pch = c(1,1,NA),inset = 0.02)
 
 ##Forecasting with lag of 1
-r2=c(r_p,ret_p["2015-01-01::"][1:l])
+r2 <- c(r_p,ret_p["2015-01-01::"][1:l])
 fore2.mean=ret_p["2014-12-31::"][1+0:l]
 fore2.upper=vector()
 fore2.lower=vector()
@@ -113,10 +113,10 @@ lines(period[1+1:l],fore2.mean[1+1:l]+fore2.lower[,1],col="blue")
 legend("topleft", c("Forecasting return","Real return","95% CI"), col=c("red","black","blue"),text.col=c("red","black","blue"),lty=c(4,4,1),pch = c(1,1,NA),inset = 0.02)
 
 ##Calculating the Forecasts of closing price
-fore2.mean2=as.vector(fore2.mean[1+1:l])
+fore2.mean2 <- as.vector(fore2.mean[1+1:l])
 fore2.price <- Reduce(function(x,y) {x*exp(y)},fore2.mean2, init=lastprice, accumulate=T)
-lower2=fore2.price[c(1+1:l)]*exp(fore2.lower[,2])
-upper2=fore2.price[c(1+1:l)]*exp(fore2.upper[,2])
+lower2 <- fore2.price[c(1+1:l)]*exp(fore2.lower[,2])
+upper2 <- fore2.price[c(1+1:l)]*exp(fore2.upper[,2])
 
 #######################################################
 
@@ -124,7 +124,7 @@ upper2=fore2.price[c(1+1:l)]*exp(fore2.upper[,2])
 par(mfrow=c(1,1))
 plot(date,PFE$PFE.Close[date],type="b",ylab="Closing price",ylim=c(30,33.5),
      main="Forecasts of the Closing Price by lag of 1")
-period=index(ret_p["2014-12-31::"][1+0:l]) #the forecast period
+period <- index(ret_p["2014-12-31::"][1+0:l]) #the forecast period
 lines(period,fore2.price,type="b",col="red")
 lines(period[1+1:l],upper,col="blue")
 lines(period[1+1:l],lower,col="blue")
