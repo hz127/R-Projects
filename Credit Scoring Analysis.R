@@ -22,8 +22,8 @@ goodData<-subset(data,data$GoodCredit=='Good')
 badData<-subset(data,data$GoodCredit=='Bad')
 
 set.seed(12)
-d1=sort(sample(nrow(goodData),floor(nrow(goodData)*0.7)))
-d2=sort(sample(nrow(badData),floor(nrow(badData)*0.7)))
+d1 <- sort(sample(nrow(goodData),floor(nrow(goodData)*0.7)))
+d2 <- sort(sample(nrow(badData),floor(nrow(badData)*0.7)))
 
 train1<-goodData[d1,]
 train2<-badData[d2,]
