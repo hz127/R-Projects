@@ -1,9 +1,9 @@
 ## Pfizer stock price forecasting
 
-require(quantmod)
-require(forecast)
-require(urca)
-require(tseries)
+library(quantmod)
+library(forecast)
+library(urca)
+library(tseries)
 
 ##load the data
 getSymbols('PFE') # get daily Pfizer stock data from Yahoo Finance
