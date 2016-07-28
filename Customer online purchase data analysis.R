@@ -47,9 +47,11 @@ data %>%
   slice(1:5)
 ggplot(data3, aes(week, count)) + geom_bar(stat = "identity") + xlab("Date") + ylab("weekly Users") + 
   ggtitle("Weekly User Counts in 2013")
+  
 data4 <- as.data.frame(table(data$site))
 ggplot(data4, aes(Var1, Freq)) + geom_bar(aes(fill = data4$Var1), stat = "identity", width = 0.7) + 
   geom_text(aes(label = data4$Freq), vjust = -0.2) + xlab("Sites") + ggtitle("Sites visisted by Users in 2013")
+  
 data5 <- data %>%      
   group_by(site, new_customer) %>% 
   summarise(count=n()) %>%
@@ -58,18 +60,21 @@ data5[is.na(data5)] <- 2
 ggplot(data5, aes(site, count, fill = factor(new_customer))) + geom_bar(stat = "identity", position = "dodge") +
   geom_text(aes(label = data5$count), vjust = 0, position = position_dodge(0.9), size=3.5) +
   ggtitle("Sites visited by different kinds of users in 2013")
+  
 data6 <- data[is.na(data)] <- 'Unknown'
 data6 <- as.data.frame(table(data$platform))
 data6 <- data6[order(data6$Freq),]
 ggplot(data6, aes(Var1, Freq)) + geom_bar(aes(fill = data6$Var1), stat = "identity", width = 0.7) + 
   geom_text(aes(label = data6$Freq), vjust = -0.2) + xlab("Platform") + ggtitle("Type of Devices Used by Users in 2013") +
   scale_x_discrete(limits = data6$Var1)
+  
 data7 <- data %>% 
   group_by(new_customer) %>%
   summarise(count = n())
 data7[is.na(data7)] <- 2  
 ggplot(data7, aes(factor(new_customer), count)) + geom_bar(aes(fill = data7$new_customer), stat = "identity", width = 0.5) + 
   geom_text(aes(label = data7$count), vjust = -0.2) + xlab("User Type") + ggtitle("Type of Users in 2013") 
+  
 data8 <- data[,c(5,7,9,10)] 
 sapply(data, function(x) sum(is.na(x)))
 data9 <- apply(data8, 2, sum)
@@ -159,7 +164,7 @@ svm.prf <- performance(svm.pred2, measure = "tpr", x.measure = "fpr")
 plot(svm.prf, col = 3, add = T)
 auc.svm <- performance(svm.pred2, measure = "auc")@y.values[[1]]
 
-## gbm
+## gradient boosting model
 set.seed(123)
 fitControl <- trainControl(method = "repeatedcv", number = 4, repeats = 4)
 gbm.mod <- train(y_train_lg~., data = train_lgs, method = "gbm", trControl = fitControl, verbose = F)
@@ -193,6 +198,7 @@ plot(lm.mod)
 lm.pred1 <- predict(lm.mod, data.frame(test_lr))
 mean((lm.pred1 - y_test)^2) # 1154.561
 
+## box-cox transformation
 boxcox(lm((y_train + 1)~., data = data_lm), lambda = seq(-1,1, by = 0.1))
 lm.mod2 <- lm((y_train + 1)^(-0.5)~., data = data_lm)
 summary(lm.mod2)
